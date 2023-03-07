@@ -1,7 +1,7 @@
 _BASE_: "Base-RCNN-FPN.yaml"
 MODEL:
   WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
-  MASK_ON: True
+  MASK_ON: OFF
   RESNETS:
     DEPTH: 50
   # Detectron1 uses smooth L1 loss with some magic beta values.

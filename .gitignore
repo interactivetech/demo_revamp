@@ -1,0 +1,5 @@
+detectron2_files/
+detectron2_repo/
+tiny_coco/
+x-ray-rheumatology-2/
+output/
