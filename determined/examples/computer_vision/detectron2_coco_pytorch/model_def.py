@@ -19,6 +19,53 @@ from determined.pytorch import DataLoader, LRScheduler, PyTorchTrial, PyTorchTri
 
 TorchData = Union[Dict[str, torch.Tensor], Sequence[torch.Tensor], torch.Tensor]
 
+#Andrew: pre-defined directory paths to roboflow datasets
+'''
+Roboflow datasets assume the directory structure:
+├── test
+│   ├── _annotations.coco.json
+│   ├── *.jpg
+│   ├── ...
+│   └── *.jpg
+├── train
+│   ├── _annotations.coco.json
+│   ├── *.jpg
+│   ├── ...
+│   └── *.jpg
+├── vaid
+│   ├── _annotations.coco.json
+│   ├── *.jpg
+│   ├── ...
+│   └── *.jpg
+'''
+roboflow_dataset_dirs = {
+        'x-ray-rheumatology': '/run/determined/workdir/shared_fs/data/x-ray-rheumatology',
+        'flir-camera-objects': '/run/determined/workdir/shared_fs/data/flir-camera-objects',
+    }
+
+def register_roboflow_dataset(dataset_name,cfg):
+    '''
+    '''
+    cfg.defrost()
+    DIR = roboflow_dataset_dirs[dataset_name]
+    print("DIR: ",DIR)
+    TRAIN_JSON_PATH = os.path.join(DIR,'train/_annotations.coco.json')
+    TRAIN_IMG_DIR = os.path.join(DIR,'train/')
+    VAL_JSON_PATH = os.path.join(DIR,'valid/_annotations.coco.json')
+    VAL_IMG_DIR = os.path.join(DIR,'valid/')
+    TEST_JSON_PATH = os.path.join(DIR,'test/_annotations.coco.json')
+    TEST_IMG_DIR = os.path.join(DIR,'test/')
+    train_dataset_name = "train_{}".format(dataset_name)
+    val_dataset_name="val_{}".format(dataset_name)
+    test_dataset_name = "test_{}".format(dataset_name)
+    register_coco_instances(train_dataset_name, {}, TRAIN_JSON_PATH, TRAIN_IMG_DIR)
+    register_coco_instances(val_dataset_name, {}, VAL_JSON_PATH, VAL_IMG_DIR)
+    register_coco_instances(test_dataset_name, {}, TEST_JSON_PATH, TEST_IMG_DIR)
+    cfg.DATASETS.TRAIN=("train_{}".format(dataset_name),)
+    cfg.DATASETS.VAL=("val_{}".format(dataset_name),)
+    cfg.DATASETS.TEST=("test_{}".format(dataset_name),)
+    # cfg.freeze()
+    return cfg, train_dataset_name, val_dataset_name, test_dataset_name
 
 class DetectronTrial(PyTorchTrial):
     def __init__(self, context: PyTorchTrialContext):
@@ -38,18 +85,18 @@ class DetectronTrial(PyTorchTrial):
         self.scheduler = self.context.wrap_lr_scheduler(
             self.scheduler, LRScheduler.StepMode.STEP_EVERY_BATCH
         )
-
-        self.dataset_name = self.cfg.DATASETS.TEST[0]
-        print("self.cfg.DATASETS.TEST[0]: ",self.cfg.DATASETS.TEST[0])
-        print("json_path: ",self.context.get_hparam("json_path"))
-        print("data_path: ",self.context.get_hparam("data_path"))
-        register_coco_instances(self.cfg.DATASETS.TEST[0], {}, self.context.get_hparam("json_path"), self.context.get_hparam("data_path"))
+        # self.dataset_name = self.cfg.DATASETS.TEST[0]
+        self.dataset_name = self.context.get_hparam("dataset_name")
+        print("dataset_name: ",self.dataset_name)
+        cfg, train_dataset_name, val_dataset_name, test_dataset_name = register_roboflow_dataset(self.dataset_name,self.cfg )
+        self.cfg = cfg
         self.evaluators = get_evaluator(
             self.cfg,
-            self.dataset_name,
+            val_dataset_name,
             self.context.get_hparam("output_dir"),
             self.context.get_hparam("fake_data"),
         )
+        self.dataset_name =  self.cfg.DATASETS.TEST[0]
         self.val_reducer = self.context.wrap_reducer(
             EvaluatorReducer(self.evaluators), for_training=False
         )

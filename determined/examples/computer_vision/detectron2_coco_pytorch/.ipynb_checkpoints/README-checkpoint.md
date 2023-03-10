@@ -1,3 +1,29 @@
+
+# Demo Revamp Steps
+Allows you to swap Roboflow datasets easily, and swap Detectron2-based models easily
+
+* Roboflow datasets supported: `x-ray-rheumatology`, `flir-camera-objects`
+* Models: FasterRCNN Resnet50 FPN 1x, MaskRCNN Resnet50 FPN 1x, Cascade RCNN Resnet50 FPN 3x
+
+# Steps to Run
+`apt-get update && apt-get install nano`
+`git clone https://github.com/facebookresearch/detectron2 detectron2_repo`
+`pip install -e detectron2_repo`
+`pip install opencv-python`
+`apt-get update && apt-get install ffmpeg libsm6 libxext6  -y`
+`export ROBOFLOW_KEY=<INSERT KEY>`
+`pip install roboflow`
+`python download_roboflow_dataset.py`
+`pip install setuptools==59.5.0`
+
+`export DET_MASTER=<URL>`
+
+# Run training on `x-ray-rheumatology`
+det  experiment create -f const.yaml .
+# Run training on `flir-camera-objects`
+Flir: experiment create -f const-flir.yaml .
+
+
 # Detectron2 Example
 
 This example is a port of Detectron2 using Determined's PyTorchTrial API. The original example can be found on

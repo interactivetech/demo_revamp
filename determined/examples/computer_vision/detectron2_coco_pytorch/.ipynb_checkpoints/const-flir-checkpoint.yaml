@@ -5,8 +5,8 @@ environment:
       - DETECTRON2_DATASETS=/mnt/dtrain-fsx/detectron2
 hyperparameters:
   global_batch_size: 8 # Detectron defaults to 16 regardless of N GPUs
-  model_yaml: mask_rcnn_R_50_FPN_noaug_1x.yaml
-  dataset_name: 'x-ray-rheumatology'
+  model_yaml: cascade_mask_rcnn_R_50_FPN_3x.yaml
+  dataset_name: 'flir-camera-objects'
   output_dir: None
   fake_data: False
 searcher:

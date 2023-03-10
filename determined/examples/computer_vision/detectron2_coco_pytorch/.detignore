@@ -1,1 +1,4 @@
 Dockerfile
+output/
+detectron2_repo
+*.ipynb
