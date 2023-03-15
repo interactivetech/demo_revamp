@@ -1,6 +1,7 @@
 _BASE_: "Base-RCNN-FPN.yaml"
 MODEL:
-  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  # WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHTS: "https://dl.fbaipublicfiles.com/detectron2/Detectron1-Comparisons/mask_rcnn_R_50_FPN_noaug_1x/137781281/model_final_62ca52.pkl"
   MASK_ON: OFF
   RESNETS:
     DEPTH: 50
