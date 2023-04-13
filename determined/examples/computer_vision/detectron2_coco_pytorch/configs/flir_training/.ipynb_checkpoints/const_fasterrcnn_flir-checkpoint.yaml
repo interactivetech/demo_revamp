@@ -1,12 +1,10 @@
-name: detectron2_const
+name: detectron2_const_fasterrcnn
 environment:
     image: "determinedai/example-detectron2:0.6-cuda-10.2-pytorch-1.10"
-    environment_variables:
-      - DETECTRON2_DATASETS=/mnt/dtrain-fsx/detectron2
 hyperparameters:
   global_batch_size: 8 # Detectron defaults to 16 regardless of N GPUs
-  model_yaml: mask_rcnn_R_50_FPN_noaug_1x.yaml
-  dataset_name: 'x-ray-rheumatology'
+  model_yaml: models/fast_rcnn_R_50_FPN_1x.yaml
+  dataset_name: 'flir-camera-objects'
   output_dir: None
   fake_data: False
 searcher:

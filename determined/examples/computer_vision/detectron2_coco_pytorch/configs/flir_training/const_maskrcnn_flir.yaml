@@ -1,0 +1,21 @@
+name: detectron2_const_maskrcnn_flir
+environment:
+    image: "determinedai/example-detectron2:0.6-cuda-10.2-pytorch-1.10"
+hyperparameters:
+  global_batch_size: 8 # Detectron defaults to 16 regardless of N GPUs
+  model_yaml: models/mask_rcnn_R_50_FPN_noaug_1x.yaml
+  dataset_name: 'flir-camera-objects'
+  output_dir: None
+  fake_data: False
+searcher:
+  name: single
+  metric: bboxAP
+  max_length: 
+    batches: 9000
+  smaller_is_better: false
+resources:
+    slots_per_trial: 4
+entrypoint: model_def:DetectronTrial
+max_restarts: 0
+min_validation_period:
+  batches: 100
