@@ -1,4 +1,4 @@
-name: detectron2_const_fasterrcnn
+name: detectron2_const_fasterrcnn_flir
 environment:
     image: "determinedai/example-detectron2:0.6-cuda-10.2-pytorch-1.10"
 hyperparameters:
