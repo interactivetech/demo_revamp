@@ -19,12 +19,12 @@ MODEL:
     POOLER_TYPE: "ROIAlign"
 SOLVER:
   BASE_LR: 0.02
-INPUT:
-  MAX_SIZE_TEST: 128
-  MAX_SIZE_TRAIN: 128
-  MIN_SIZE_TEST: 128
-  MIN_SIZE_TRAIN: 128
 # INPUT:
-#   # no scale augmentation
-#   # MIN_SIZE_TRAIN: (800, )
-#   MIN_SIZE_TRAIN: (128, )
+#   MAX_SIZE_TEST: 128
+#   MAX_SIZE_TRAIN: 128
+#   MIN_SIZE_TEST: 128
+#   MIN_SIZE_TRAIN: 128
+INPUT:
+  # no scale augmentation
+  # MIN_SIZE_TRAIN: (800, )
+  MIN_SIZE_TRAIN: (128, )

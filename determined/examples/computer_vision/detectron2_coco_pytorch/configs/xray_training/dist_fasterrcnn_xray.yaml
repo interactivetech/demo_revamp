@@ -1,4 +1,4 @@
-name: detectron2_const_fasterrcnn_xray
+name: detectron2_dist_fasterrcnn_xray
 environment:
     image: "determinedai/example-detectron2:0.6-cuda-10.2-pytorch-1.10"
 hyperparameters:
@@ -14,7 +14,7 @@ searcher:
     batches: 9000
   smaller_is_better: false
 resources:
-    slots_per_trial: 1
+    slots_per_trial: 4
 entrypoint: model_def:DetectronTrial
 max_restarts: 0
 min_validation_period:

@@ -4,3 +4,6 @@ detectron2_repo/
 tiny_coco/
 x-ray-rheumatology-2/
 output/
+checkpoints/
+.ipynb_checkpoints/
+__pycache__/

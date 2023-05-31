@@ -14,7 +14,7 @@ searcher:
     batches: 9000
   smaller_is_better: false
 resources:
-    slots_per_trial: 4
+    slots_per_trial: 1
 entrypoint: model_def:DetectronTrial
 max_restarts: 0
 min_validation_period:
