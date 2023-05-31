@@ -7,15 +7,15 @@ This repo consists of training object detection models in determined, where you 
 * Models: FasterRCNN Resnet50 FPN 1x, MaskRCNN Resnet50 FPN 1x, Cascade RCNN Resnet50 FPN 3x
 
 # Prereq
-Tested using ds-workshops.determined.ai, T4 GPUs
+Tested using http://ds-workshops.determined.ai:8080/, T4 GPUs
 
 # Steps to Run
-* Create notebook environments with determined image: `determinedai/example-detectron2:0.6-cuda-10.2-pytorch-1.10`
-* git clone repo
+* login to http://ds-workshops.determined.ai:8080/
+* Create notebook environment with determined image: `determinedai/example-detectron2:0.6-cuda-10.2-pytorch-1.10`
 * cd demo_revamp/determined/examples/computer_vision/detectron2_coco_pytorch/configs
 
 ## Install Dependencies
-* `apt-get update && apt-get install nano`
+* `apt-get update`
 * `bash install-dep.sh`
 
 # Create Roboflow account, get API key
@@ -25,23 +25,19 @@ Follow these instructions so get your API KEY: https://docs.roboflow.com/rest-ap
 
 
 # Download datasets in shared_fs
-Update   <API_KEY> with your private API key and run the below python script in a terminal:
-* `!python download_datasets.py --dataset-dir /run/determined/workdir/shared_fs/data/ --key <API_KEY>`
+Copy the below python script command, and Update <API_KEY> with your private API key and run the below python script in a terminal:
+* `python download_datasets.py --dataset-dir /run/determined/workdir/shared_fs/data/ --key <API_KEY>`
 
 
-# Open notebook: `Demo_Revamp.ipynb` to see and run premade yamls, swapping datasets and models
-Here you can run through all the cells and see how to easily Train the following models:
-* FasterRCNN on a FLIR Object Detection Dataset
-* FasterRCNN on X Ray Rheumatology dataset
-* MaskRCNN on a FLIR Object Detection Dataset
-* MaskRCNN on X Ray Rheumatology dataset
+# Open notebook: `Public Sector MLDE Notebook.ipynb` to see and run premade yamls, swapping models with the FLIR dataset
+Here you can run through all the cells and see how to easily train models with swappable datasets.
 
-## Example of Dataset swapping and Model Swapping
-Run the `Demo_Revamp.ipynb` to see how to swap datasets and models. 
+# Open notebook: `Healthcare MLDE Notebook.ipynb` to see and run premade yamls, swapping models with the XRay dataset
+Here you can run through all the cells and see how to easily train models with swappable datasets.
 
 ## Manually Swap Datasets
 
-This repo can only toggle between two datasets, `x-ray-rheumatology` and `flir-camera-objects`. You can manually change the dataset by creating a new `const.yaml` editing the `dataset_name` yaml entry  to only have `x-ray-rheumatology` or `flir-camera-objects`
+This repo can only toggle between two datasets, `x-ray-rheumatology` and `flir-camera-objects`. You can easily change the dataset by creating a new `const.yaml` editing the `dataset_name` yaml entry to either have `x-ray-rheumatology` or `flir-camera-objects`
 
 ```yaml
 name: detectron2_const_fasterrcnn_flir
@@ -74,4 +70,7 @@ This repo can only toggle between models defined in the `models/` directory. Cur
 * MaskRCNN which is defined in `mask_rcnn_R_50_FPN_noaug_1x.yaml`
 * CascadeRCNN, which is defined in `cascade_mask_rcnn_R_50_FPN_3x.yaml`
 
-You can manually change the dataset by creating a new `const.yaml` editing the `model_yaml` yaml entry to only have `fast_rcnn_R_50_FPN_1x.yaml`,`mask_rcnn_R_50_FPN_noaug_1x.yaml`, `cascade_mask_rcnn_R_50_FPN_3x.yaml`
+You can manually change the dataset by creating a new `const.yaml` editing the `model_yaml` entry to wither have 
+* `fast_rcnn_R_50_FPN_1x.yaml`
+* `mask_rcnn_R_50_FPN_noaug_1x.yaml`
+* `cascade_mask_rcnn_R_50_FPN_3x.yaml`
